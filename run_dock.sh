@@ -94,7 +94,7 @@ case "$IMAGE" in
 				-e MYSQL_USER=mydbuser \
 				-e MYSQL_PASSWORD=mydbuserpass \
 				-e MYSQL_ROOT_PASSWORD=mydbrootpass \
-				-v $(pwd)/db_data:/var/lib/mysql \
+				-v $(pwd)/data_db:/var/lib/mysql \
 				-p 3306:3306/tcp \
 				mysql/mysql-server:latest --character-set-server=utf8 --collation-server=utf8_general_ci
             ;;
@@ -103,6 +103,7 @@ case "$IMAGE" in
             [[ -z "$COMMANDS" ]] &&     { echo "Utilizando cmd padrão" ;    COMMANDS="freeradius -X"; }
             [[ -z "$PORTA" ]]    &&     { echo "Utilizando porta padrão" ;  PORTA="1812"; }
         	docker run ${RUNMODE} ${REMOVE} --name $IMAGE \
+                -v $(pwd)/data_fr:/etc/freeradius \
 				-p ${PORTA}:${PORTA}/udp \
 				freeradius:samba $COMMANDS
         	;;
